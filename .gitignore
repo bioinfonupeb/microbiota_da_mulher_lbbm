@@ -13,6 +13,10 @@ gg_13_8_otus/
 # QZA files
 *.qza
 
-# FASTA files
+# Graph files
+*.gd
+
+# Sequence files
 *.fasta
+*.fna
 *.fastq
