@@ -1,0 +1,49 @@
+Logging started at 20:45:43 on 21 Jan 2021
+QIIME version: 1.9.1
+
+qiime_config values:
+blastmat_dir	/usr/share/ncbi/data
+pick_otus_reference_seqs_fp	/usr/local/lib/python2.7/dist-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+python_exe_fp	python
+sc_queue	all.q
+pynast_template_alignment_fp	/usr/share/qiime/data/core_set_aligned.fasta.imputed
+assign_taxonomy_reference_seqs_fp	/usr/local/lib/python2.7/dist-packages/qiime_default_reference/gg_13_8_otus/rep_set/97_otus.fasta
+torque_queue	friendlyq
+template_alignment_lanemask_fp	/usr/share/qiime/data/lanemask_in_1s_and_0s
+jobs_to_start	1
+qiime_scripts_dir	/usr/lib/qiime/bin/
+denoiser_min_per_core	50
+working_dir	.
+assign_taxonomy_id_to_taxonomy_fp	/usr/local/lib/python2.7/dist-packages/qiime_default_reference/gg_13_8_otus/taxonomy/97_otu_taxonomy.txt
+temp_dir	/tmp/
+blastall_fp	blastall
+seconds_to_sleep	60
+
+parameter file values:
+
+Executing commands.
+
+# split_libraries_fastq.py command 
+split_libraries_fastq.py  -i /home/workspace/menopausa_lbbm/files_fastq/M28.extendedFrags.fastq,/home/workspace/menopausa_lbbm/files_fastq/M17.extendedFrags.fastq,/home/workspace/menopausa_lbbm/files_fastq/M06.extendedFrags.fastq,/home/workspace/menopausa_lbbm/files_fastq/M09.extendedFrags.fastq,/home/workspace/menopausa_lbbm/files_fastq/M12.extendedFrags.fastq,/home/workspace/menopausa_lbbm/files_fastq/M03.extendedFrags.fastq,/home/workspace/menopausa_lbbm/files_fastq/M01.extendedFrags.fastq,/home/workspace/menopausa_lbbm/files_fastq/M19.extendedFrags.fastq,/home/workspace/menopausa_lbbm/files_fastq/M16.extendedFrags.fastq --sample_ids M28.extendedFrags.fastq,M17.extendedFrags.fastq,M06.extendedFrags.fastq,M09.extendedFrags.fastq,M12.extendedFrags.fastq,M03.extendedFrags.fastq,M01.extendedFrags.fastq,M19.extendedFrags.fastq,M16.extendedFrags.fastq -o /home/workspace/menopausa_lbbm/fasta  --barcode_type 'not-barcoded'
+
+Stdout:
+--------------------------------------------------------------------------
+[[22340,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: bioserver02
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+
+Stderr:
+/usr/local/lib/python2.7/dist-packages/h5py-2.7.1-py2.7-linux-x86_64.egg/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+
+
+Logging stopped at 20:46:30 on 21 Jan 2021

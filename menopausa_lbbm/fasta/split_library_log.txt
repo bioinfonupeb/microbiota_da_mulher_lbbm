@@ -1,0 +1,153 @@
+Input file paths
+Sequence read filepath: /home/workspace/menopausa_lbbm/files_fastq/M28.extendedFrags.fastq (md5: 8e0fc10ccf0c16f43d365d68be731295)
+Quality filter results
+Total number of input sequences: 88064
+Barcode not in mapping file: 0
+Read too short after quality truncation: 283
+Count of N characters exceeds limit: 8
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 0
+
+Result summary (after quality filtering)
+Median sequence length: 405.00
+M28.extendedFrags.fastq	87773
+
+Total number seqs written	87773
+---
+
+Input file paths
+Sequence read filepath: /home/workspace/menopausa_lbbm/files_fastq/M17.extendedFrags.fastq (md5: 9a411842dee0bd35238f6b6c06784269)
+Quality filter results
+Total number of input sequences: 80502
+Barcode not in mapping file: 0
+Read too short after quality truncation: 181
+Count of N characters exceeds limit: 10
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 0
+
+Result summary (after quality filtering)
+Median sequence length: 424.00
+M17.extendedFrags.fastq	80311
+
+Total number seqs written	80311
+---
+
+Input file paths
+Sequence read filepath: /home/workspace/menopausa_lbbm/files_fastq/M06.extendedFrags.fastq (md5: 68c1e85640293226aa797139ac2a15ca)
+Quality filter results
+Total number of input sequences: 89788
+Barcode not in mapping file: 0
+Read too short after quality truncation: 231
+Count of N characters exceeds limit: 8
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 0
+
+Result summary (after quality filtering)
+Median sequence length: 406.00
+M06.extendedFrags.fastq	89549
+
+Total number seqs written	89549
+---
+
+Input file paths
+Sequence read filepath: /home/workspace/menopausa_lbbm/files_fastq/M09.extendedFrags.fastq (md5: bb5dbc38d6d86ab1193868690fb838df)
+Quality filter results
+Total number of input sequences: 83685
+Barcode not in mapping file: 0
+Read too short after quality truncation: 217
+Count of N characters exceeds limit: 2
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 0
+
+Result summary (after quality filtering)
+Median sequence length: 406.00
+M09.extendedFrags.fastq	83466
+
+Total number seqs written	83466
+---
+
+Input file paths
+Sequence read filepath: /home/workspace/menopausa_lbbm/files_fastq/M12.extendedFrags.fastq (md5: f6dfc9933ab0342cc0aa3037217335d6)
+Quality filter results
+Total number of input sequences: 67446
+Barcode not in mapping file: 0
+Read too short after quality truncation: 228
+Count of N characters exceeds limit: 8
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 0
+
+Result summary (after quality filtering)
+Median sequence length: 405.00
+M12.extendedFrags.fastq	67210
+
+Total number seqs written	67210
+---
+
+Input file paths
+Sequence read filepath: /home/workspace/menopausa_lbbm/files_fastq/M03.extendedFrags.fastq (md5: d8720f65d8d6f9013ca2b5a67bd4fea9)
+Quality filter results
+Total number of input sequences: 65820
+Barcode not in mapping file: 0
+Read too short after quality truncation: 165
+Count of N characters exceeds limit: 9
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 0
+
+Result summary (after quality filtering)
+Median sequence length: 410.00
+M03.extendedFrags.fastq	65646
+
+Total number seqs written	65646
+---
+
+Input file paths
+Sequence read filepath: /home/workspace/menopausa_lbbm/files_fastq/M01.extendedFrags.fastq (md5: 70118d362f551085195fbc6cd3da69d6)
+Quality filter results
+Total number of input sequences: 82485
+Barcode not in mapping file: 0
+Read too short after quality truncation: 282
+Count of N characters exceeds limit: 9
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 0
+
+Result summary (after quality filtering)
+Median sequence length: 405.00
+M01.extendedFrags.fastq	82194
+
+Total number seqs written	82194
+---
+
+Input file paths
+Sequence read filepath: /home/workspace/menopausa_lbbm/files_fastq/M19.extendedFrags.fastq (md5: 1585cb33aa93f4af3381d5abfddc8419)
+Quality filter results
+Total number of input sequences: 83879
+Barcode not in mapping file: 0
+Read too short after quality truncation: 191
+Count of N characters exceeds limit: 9
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 0
+
+Result summary (after quality filtering)
+Median sequence length: 424.00
+M19.extendedFrags.fastq	83679
+
+Total number seqs written	83679
+---
+
+Input file paths
+Sequence read filepath: /home/workspace/menopausa_lbbm/files_fastq/M16.extendedFrags.fastq (md5: f3eb2a4daafd45966da033cca0c6f4e8)
+Quality filter results
+Total number of input sequences: 79076
+Barcode not in mapping file: 0
+Read too short after quality truncation: 261
+Count of N characters exceeds limit: 5
+Illumina quality digit = 0: 0
+Barcode errors exceed max: 0
+
+Result summary (after quality filtering)
+Median sequence length: 406.00
+M16.extendedFrags.fastq	78810
+
+Total number seqs written	78810
+---
+

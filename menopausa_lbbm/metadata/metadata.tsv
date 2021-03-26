@@ -1,0 +1,11 @@
+#SampleID	BarcodeSequence	LinkerPrimerSequence	Description
+#q2:types	categorical	categorical	categorical
+M01			feces-without_reposition
+M03			feces-without_reposition
+M06			feces-without_reposition
+M09			feces-without_reposition
+M12			feces-without_reposition
+M16			feces-without_reposition
+M17			feces-without_reposition
+M19			feces-without_reposition
+M28			feces-without_reposition
