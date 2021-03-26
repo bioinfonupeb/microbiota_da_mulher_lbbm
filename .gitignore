@@ -8,7 +8,11 @@
 *.rar
 
 # third-party datasets and files
-/gg_13_8_otus
+gg_13_8_otus/
 
 # QZA files
 *.qza
+
+# FASTA files
+*.fasta
+*.fastq
