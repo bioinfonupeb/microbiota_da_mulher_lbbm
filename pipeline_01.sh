@@ -1,5 +1,5 @@
 # Define paths
-ROOT_DIR_PATH="/home/lauro/nupeb/renata_thayne_jennefer/menopausa_lbbm";
+ROOT_DIR_PATH="/home/lauro/nupeb/microbiota_da_mulher_lbbm/menopausa_lbbm";
 METADIR="${ROOT_DIR_PATH}/metadata";
 METAFILE="${METADIR}/metadata.tsv";
 FASTQ_DIR_PATH="${ROOT_DIR_PATH}/fastq_files";
@@ -29,6 +29,17 @@ UNROOTMLTREEMASKEDQZA="${PHYLOTREEDIR}/unroot_ml_tree_masked.qza";
 ROOTMLTREEQZA="${PHYLOTREEDIR}/root_ml_tree.qza";
 COREMETRICSDIR="${ROOT_DIR_PATH}/core_metrics_results";
 CLOSEDREFDIR="${ROOT_DIR_PATH}/closed_ref";
+JPE="${CLOSEDREFDIR}/dmx-jpe.qza"
+JPEFILTER="${CLOSEDREFDIR}/dmx-jpe-filter.qza";
+JPEFILTERSTATS="${CLOSEDREFDIR}/dmx-jpe-filter-stats.qza";
+DRPLTABLE="${CLOSEDREFDIR}/drpl-tbl.qza";
+DRPLSEQSQZA="${CLOSEDREFDIR}/drpl-seqs.qza";
+OTUS97="${CLOSEDREFDIR}/97_otus-GG.qza";
+OTUS97REFTAX="${CLOSEDREFDIR}/97_otu-ref-taxonomy-GG.qza";
+TBLCR97="${CLOSEDREFDIR}/tbl-cr-97.qza";
+REPSEQCR97="${CLOSEDREFDIR}/rep-seqs-cr-97.qza";
+UMATCHCR97="${CLOSEDREFDIR}/unmatched-cr-97.qza";
+METAGENDIR="${ROOT_DIR_PATH}/metagenome";
 
 
 
@@ -70,9 +81,9 @@ QIIME=qiime2-2020.11;	# Conda qiime enviroment
 # 	wget -O "${SILVA}" "https://data.qiime2.org/2021.4/common/silva-138-99-nb-classifier.qza";
 # fi
 
-# # # ----------------------------------------
-# # # --- Pipe 00.2 : Create metadata file ---
-# # # ----------------------------------------
+# # ----------------------------------------
+# # --- Pipe 00.2 : Create metadata file ---
+# # ----------------------------------------
 # mkdir -p $METADIR;
 # if test -f "${METAFILE}"; then
 #     echo "File already exists: ${METAFILE}";
@@ -87,6 +98,19 @@ QIIME=qiime2-2020.11;	# Conda qiime enviroment
 # 		echo -e "${SAMPLEID}\t\t\tfeces-without_reposition" >> ${METAFILE};
 # 	done;
 # fi
+
+
+# # ----------------------------------------
+# # --- Pipe 00.3 : Install PICRUST2 -------
+# # ----------------------------------------
+# conda activate $QIIME;
+# # conda install q2-picrust2 \
+# # 	-c conda-forge \
+# # 	-c bioconda \
+# # 	-c gavinmdouglas 
+# conda install -c bioconda -c conda-forge picrust2
+# wget -O "" "https://github.com/gavinmdouglas/q2-picrust2/archive/refs/tags/2019.10_0.tar.gz";
+# conda deactivate;
 
 
 # # -----------------------------------------------------------
@@ -289,22 +313,11 @@ QIIME=qiime2-2020.11;	# Conda qiime enviroment
 # conda deactivate;
 
 
-# ------------------------------------------
-# --- Pipe 08 :  Closed Reference Method ---
-# ------------------------------------------
-mkdir -p "${CLOSEDREFDIR}";
-conda activate $QIIME;
-
-JPE="${CLOSEDREFDIR}/dmx-jpe.qza"
-JPEFILTER="${CLOSEDREFDIR}/dmx-jpe-filter.qza";
-JPEFILTERSTATS="${CLOSEDREFDIR}/dmx-jpe-filter-stats.qza";
-DRPLTABLE="${CLOSEDREFDIR}/drpl-tbl.qza";
-DRPLSEQSQZA="${CLOSEDREFDIR}/drpl-seqs.qza";
-OTUS97="${CLOSEDREFDIR}/97_otus-GG.qza";
-OTUS97REFTAX="${CLOSEDREFDIR}/97_otu-ref-taxonomy-GG.qza";
-TBLCR97="${CLOSEDREFDIR}/tbl-cr-97.qza";
-REPSEQCR97="${CLOSEDREFDIR}/rep-seqs-cr-97.qza";
-UMATCHCR97="${CLOSEDREFDIR}/unmatched-cr-97.qza";
+# # ------------------------------------------
+# # --- Pipe 08 :  Closed Reference Method ---
+# # ------------------------------------------
+# mkdir -p "${CLOSEDREFDIR}";
+# conda activate $QIIME;
 
 # # Join paired-end reads - Only for demux-paired-end
 # qiime vsearch join-pairs \
@@ -318,11 +331,11 @@ UMATCHCR97="${CLOSEDREFDIR}/unmatched-cr-97.qza";
 # 	--o-filtered-sequences "${JPEFILTER}" \
 # 	--o-filter-stats "${JPEFILTERSTATS}"
 
-# Dereplicating sequences
-qiime vsearch dereplicate-sequences \
-	--i-sequences "${JPEFILTER}" \
-	--o-dereplicated-table "${DRPLTABLE}" \
-	--o-dereplicated-sequences "${DRPLSEQSQZA}"
+# # Dereplicating sequences
+# qiime vsearch dereplicate-sequences \
+# 	--i-sequences "${JPEFILTER}" \
+# 	--o-dereplicated-table "${DRPLTABLE}" \
+# 	--o-dereplicated-sequences "${DRPLSEQSQZA}"
 
 # # Closed-reference clustering
 # qiime tools import \
@@ -332,20 +345,97 @@ qiime vsearch dereplicate-sequences \
 
 # qiime tools import \
 # 	--type 'FeatureData[Taxonomy]' \
-# 	--source-format HeaderlessTSVTaxonomyFormat \
 # 	--input-path "${GREENGENESOTUS}/taxonomy/97_otu_taxonomy.txt" \
+# 	--input-format HeaderlessTSVTaxonomyFormat \
 # 	--output-path "${OTUS97REFTAX}"
 
-# #  OTU clustering at 97%
+#  OTU clustering at 97%
 # qiime vsearch cluster-features-closed-reference \
 # 	--i-table "${DRPLTABLE}" \
 # 	--i-sequences "${DRPLSEQSQZA}" \
 # 	--i-reference-sequences "${OTUS97}" \
 # 	--p-perc-identity 0.97 \
+# 	--p-threads 0 \
 # 	--o-clustered-table "${TBLCR97}" \
 # 	--o-clustered-sequences "${REPSEQCR97}" \
 # 	--o-unmatched-sequences "${UMATCHCR97}"
+
 # # Export the OTU table
-# qiime tools export "${TBLCR97}" \
-# 	--output-dir "${CLOSEDREFDIR}"
+# qiime tools export \
+# 	--input-path "${TBLCR97}" \
+# 	--output-path "${CLOSEDREFDIR}"
+
+# conda deactivate;
+
+# Convert to JSON format
+# biom convert \
+# 	-i "${CLOSEDREFDIR}/feature-table.biom" \
+# 	-o "${CLOSEDREFDIR}/feature-table.json.biom" \
+# 	--to-json
+
+# # --------------------------------------------
+# # --- Pipe 09.1 :  PICRUSt 2  ----------------
+# # --- Normalize 16S rRNA gene copy numbers ---
+# # --------------------------------------------
+# normalize_by_copy_number.py \
+# 	-i "${CLOSEDREFDIR}/feature-table.biom" \
+# 	-o "${CLOSEDREFDIR}/normalized_feature-table.biom"
+
+# --------------------------------------------------------
+# --- Pipe 09.2 :  PICRUSt 2  ----------------------------
+# --- Predict the metagenome using full PICRUSt pipeline - 
+# --------------------------------------------------------
+# mkdir -p "${METAGENDIR}";
+
+# # Generate a TSV table
+# predict_metagenomes.py \
+# 	-f \
+# 	-i "${CLOSEDREFDIR}/normalized_feature-table.biom" \
+# 	-o "${METAGENDIR}/kegg_metagenome_predictions.tab"
+# # Generate a BIOM table
+# predict_metagenomes.py \
+# 	-i "${CLOSEDREFDIR}/normalized_feature-table.biom" \
+# 	-o "${METAGENDIR}/kegg_metagenome_predictions.biom"
+
+conda activate $QIIME;
+
+# qiime tools import \
+# 	--input-path "${METAGENDIR}/kegg_metagenome_predictions.biom" \
+# 	--output-path "${METAGENDIR}/kegg_metagenome_predictions_table.qza" \
+# 	--type "FeatureTable[Frequency]"
+
+# qiime tools import --show-importable-types
+# echo "----------------------------"
+# qiime tools import --show-importable-formats
+
+# Necessario modificar o cabecalho manualmente - Primeiras colunas devem chamar Feature ID, Taxon
+# qiime tools import \
+# 	--input-path "${METAGENDIR}/kegg_metagenome_predictions_mod2.tab" \
+# 	--output-path "${METAGENDIR}/kegg_metagenome_predictions_tax.qza" \
+# 	--input-format TSVTaxonomyFormat \
+# 	--type "FeatureData[Taxonomy]"
+# BIOMV210Format
+
+qiime taxa barplot \
+	--i-table "${METAGENDIR}/kegg_metagenome_predictions_table.qza" \
+	--i-taxonomy "${METAGENDIR}/kegg_metagenome_predictions_tax.qza" \
+	--m-metadata-file ${METAFILE} \
+	--o-visualization "${METAGENDIR}/kegg_metagenome_predictions.qzv"
+
 conda deactivate;
+
+# Categorize at level L3 the metabolic profile using QIIME
+# categorize_by_function.py \
+# 	-i "${METAGENDIR}/kegg_metagenome_predictions.biom" \
+# 	-c "KEGG_Pathways" \
+# 	-l 3 \
+# 	-o "${METAGENDIR}/kegg_metagenome_predictions_at_level3.biom"
+
+# echo "summarize_taxa:md_identifier “KEGG_Pathways" > "${METAGENDIR}/qiime_params_l3.txt"
+# echo "summarize_taxa:absolute_abundance True" > "${METAGENDIR}/qiime_params_l3.txt"
+# echo "summarize_taxa:level 3" > "${METAGENDIR}/qiime_params_l3.txt"
+
+# summarize_taxa_through_plots.py \
+# 	-i "${METAGENDIR}/kegg_metagenome_predictions_at_level3.biom" \
+# 	-p "${METAGENDIR}/qiime_params_l3.txt" \
+# 	-o "${METAGENDIR}/plots_at_level3"
