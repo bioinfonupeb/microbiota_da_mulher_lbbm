@@ -22,6 +22,8 @@ DADAREPSEQSQZV="${DADADIR}/dada_rep_seqs.qzv";
 TAXONDIR="${ROOT_DIR_PATH}/taxonomy";
 TAXONQZA="${TAXONDIR}/taxonomy_dada_rep_seqs.qza";
 TAXONQZV="${TAXONDIR}/taxonomy_dada_rep_seqs.qzv";
+TAX_FILTERED_FILE_QZA="${TAXONDIR}/table_tax_filtered.qza";
+TAX_FILTERED_FILE_QZV="${TAXONDIR}/table_tax_filtered.qzv";
 PHYLOTREEDIR="${ROOT_DIR_PATH}/phylotree";
 MAFFTDADAREPSEQSQZA="${PHYLOTREEDIR}/mafft_dada_rep_seqs.qza";
 MASKMAFFTDADAREPSEQSQZA="${PHYLOTREEDIR}/mask_mafft_dada_rep_seqs.qza";
@@ -213,7 +215,7 @@ QIIME=qiime2-2020.11;	# Conda qiime enviroment
 
 
 # # --------------------------------------
-# # --- Pipe 05 : Taxonomic assignment ---
+# # --- Pipe 05.1 : Taxonomic assignment ---
 # # Classify the ASVs representative 
 # # sequences using the Naive Bayes
 # # classifier
@@ -230,6 +232,33 @@ QIIME=qiime2-2020.11;	# Conda qiime enviroment
 # 	--o-visualization ${TAXONQZV}
 # conda deactivate;
 
+
+# # # --------------------------------------
+# # # --- Pipe 05.2 : Optional - Taxonomic filtering ---
+# # # Taxonomy-based filtering 
+# # # --------------------------------------
+# conda activate $QIIME;
+# qiime taxa filter-table \
+# 	--i-table ${DADATABLEQZA} \
+# 	--i-taxonomy ${TAXONQZA} \
+# 	--p-include c__Clostridia \
+# 	--o-filtered-table ${TAX_FILTERED_FILE_QZA}
+# qiime metadata tabulate \
+# 	--m-input-file ${TAX_FILTERED_FILE_QZA} \
+# 	--o-visualization ${TAX_FILTERED_FILE_QZV}
+# conda deactivate;
+
+# # --------------------------------------------------------
+# # --- Pipe 07.1 : Taxonomic Analisys - Barplot profile ---
+# # --------------------------------------------------------
+# conda activate $QIIME;
+# BARPLOTQZV="${TAXONDIR}/clostridia-taxa-bar-plots.qzv";
+# qiime taxa barplot \
+# 	--i-table ${TAX_FILTERED_FILE_QZA} \
+# 	--i-taxonomy ${TAXONQZA} \
+# 	--m-metadata-file ${METAFILE} \
+# 	--o-visualization ${BARPLOTQZV}
+# conda deactivate;
 
 # # -------------------------------------
 # # --- Pipe 06.1 : Phylogenetic tree ---
@@ -397,7 +426,7 @@ QIIME=qiime2-2020.11;	# Conda qiime enviroment
 # 	-i "${CLOSEDREFDIR}/normalized_feature-table.biom" \
 # 	-o "${METAGENDIR}/kegg_metagenome_predictions.biom"
 
-conda activate $QIIME;
+# conda activate $QIIME;
 
 # qiime tools import \
 # 	--input-path "${METAGENDIR}/kegg_metagenome_predictions.biom" \
@@ -408,28 +437,33 @@ conda activate $QIIME;
 # echo "----------------------------"
 # qiime tools import --show-importable-formats
 
-# Necessario modificar o cabecalho manualmente - Primeiras colunas devem chamar Feature ID, Taxon
+# # Necessario modificar o cabecalho manualmente - Primeiras colunas devem chamar Feature ID, Taxon
 # qiime tools import \
 # 	--input-path "${METAGENDIR}/kegg_metagenome_predictions_mod2.tab" \
 # 	--output-path "${METAGENDIR}/kegg_metagenome_predictions_tax.qza" \
 # 	--input-format TSVTaxonomyFormat \
 # 	--type "FeatureData[Taxonomy]"
-# BIOMV210Format
 
-qiime taxa barplot \
-	--i-table "${METAGENDIR}/kegg_metagenome_predictions_table.qza" \
-	--i-taxonomy "${METAGENDIR}/kegg_metagenome_predictions_tax.qza" \
-	--m-metadata-file ${METAFILE} \
-	--o-visualization "${METAGENDIR}/kegg_metagenome_predictions.qzv"
+# qiime taxa barplot \
+# 	--i-table "${METAGENDIR}/kegg_metagenome_predictions_table.qza" \
+# 	--i-taxonomy "${METAGENDIR}/kegg_metagenome_predictions_tax.qza" \
+# 	--m-metadata-file ${METAFILE} \
+# 	--o-visualization "${METAGENDIR}/kegg_metagenome_predictions.qzv"
 
-conda deactivate;
+# conda deactivate;
 
+# --------------------------------------------------------
+# --- Pipe 09.2 :  PICRUSt 2  ----------------------------
+# --- Predict the metagenome using full PICRUSt pipeline - 
+# --------------------------------------------------------
 # Categorize at level L3 the metabolic profile using QIIME
 # categorize_by_function.py \
 # 	-i "${METAGENDIR}/kegg_metagenome_predictions.biom" \
 # 	-c "KEGG_Pathways" \
 # 	-l 3 \
 # 	-o "${METAGENDIR}/kegg_metagenome_predictions_at_level3.biom"
+
+
 
 # echo "summarize_taxa:md_identifier “KEGG_Pathways" > "${METAGENDIR}/qiime_params_l3.txt"
 # echo "summarize_taxa:absolute_abundance True" > "${METAGENDIR}/qiime_params_l3.txt"

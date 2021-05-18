@@ -1,11 +1,11 @@
 #SampleID	BarcodeSequence	LinkerPrimerSequence	Description
 #q2:types	categorical	categorical	categorical
-M01			feces-without_reposition
-M03			feces-without_reposition
-M06			feces-without_reposition
-M09			feces-without_reposition
-M12			feces-without_reposition
-M16			feces-without_reposition
-M17			feces-without_reposition
-M19			feces-without_reposition
-M28			feces-without_reposition
+M01			pos-menopausa
+M03			pos-menopausa
+M06			pos-menopausa
+M09			menopausa
+M12			menopausa
+M16			pos-menopausa
+M17			perimenopausa
+M19			pos-menopausa
+M28			perimenopausa
