@@ -1,11 +1,11 @@
-#SampleID	BarcodeSequence	LinkerPrimerSequence	Description
-#q2:types	categorical	categorical	categorical
-M01			pos-menopausa
-M03			pos-menopausa
-M06			pos-menopausa
-M09			menopausa
-M12			menopausa
-M16			pos-menopausa
-M17			perimenopausa
-M19			pos-menopausa
-M28			perimenopausa
+#SampleID	BarcodeSequence	LinkerPrimerSequence	Description	Beta-estradiol	FSH	LH	Reads
+#q2:types	categorical	categorical	categorical	numeric	numeric	numeric	numeric
+M01			pos-menopausa	15.8	37.52	28.48	82485
+M03			pos-menopausa	15.39	33.82	37.43	65820
+M06			pos-menopausa	15.39	33.82	37.43	89788
+M09			menopausa	12.25	65.72	54.61	83685
+M12			menopausa	14.58	30.22	35.02	67446
+M16			pos-menopausa	6.44	76.56	63.62	79076
+M17			perimenopausa	18.67	66.5	62.9	80502
+M19			pos-menopausa	23.62	14.91	12.99	83879
+M28			perimenopausa	13.48	6.19	2.14	88064
