@@ -236,131 +236,131 @@ QIIME=qiime2-2020.11;	# Conda qiime enviroment
 # ==================================================================
 
 
-# Bifidobacterium,Lactobacillus,Bacteroides,Clostridium
-pinclude=('Bifidobacterium' 'Lactobacillus' 'Bacteroides' 'Clostridium')
+# # Bifidobacterium,Lactobacillus,Bacteroides,Clostridium
+# pinclude=('Bifidobacterium' 'Lactobacillus' 'Bacteroides' 'Clostridium')
 
-for i in ${pinclude[@]}
-do
-	# # --------------------------------------
-	# # --- Pipe 05.2 : Optional - Taxonomic filtering ---
-	# # Taxonomy-based filtering 
-	# # --------------------------------------
-	echo "Processing {$i}";
-	TAX_FILTERED_FILE_QZA="${TAXONDIR}/table_tax_filtered_${i}.qza";
-	TAX_FILTERED_FILE_QZV="${TAXONDIR}/table_tax_filtered_${i}.qzv";
+# for i in ${pinclude[@]}
+# do
+# 	# # --------------------------------------
+# 	# # --- Pipe 05.2 : Optional - Taxonomic filtering ---
+# 	# # Taxonomy-based filtering 
+# 	# # --------------------------------------
+# 	echo "Processing {$i}";
+# 	TAX_FILTERED_FILE_QZA="${TAXONDIR}/table_tax_filtered_${i}.qza";
+# 	TAX_FILTERED_FILE_QZV="${TAXONDIR}/table_tax_filtered_${i}.qzv";
 
-	conda activate $QIIME;
-	if [ "${i}" == "all" ]; then
-		echo "No need to filter by tax";
-		TAX_FILTERED_FILE_QZA=$DADATABLEQZA;
-	else
-		qiime taxa filter-table \
-			--i-table ${DADATABLEQZA} \
-			--i-taxonomy ${TAXONQZA} \
-			--p-include ${i} \
-			--o-filtered-table ${TAX_FILTERED_FILE_QZA}
-		qiime metadata tabulate \
-			--m-input-file ${TAX_FILTERED_FILE_QZA} \
-			--o-visualization ${TAX_FILTERED_FILE_QZV}
-	fi
+# 	conda activate $QIIME;
+# 	if [ "${i}" == "all" ]; then
+# 		echo "No need to filter by tax";
+# 		TAX_FILTERED_FILE_QZA=$DADATABLEQZA;
+# 	else
+# 		qiime taxa filter-table \
+# 			--i-table ${DADATABLEQZA} \
+# 			--i-taxonomy ${TAXONQZA} \
+# 			--p-include ${i} \
+# 			--o-filtered-table ${TAX_FILTERED_FILE_QZA}
+# 		qiime metadata tabulate \
+# 			--m-input-file ${TAX_FILTERED_FILE_QZA} \
+# 			--o-visualization ${TAX_FILTERED_FILE_QZV}
+# 	fi
 
-	conda deactivate;
+# 	conda deactivate;
 
-	# --------------------------------------------------------
-	# --- Pipe 07.1 : Taxonomic Analisys - Barplot profile ---
-	# --------------------------------------------------------
-	BARPLOTQZV="${TAXONDIR}/taxa_bar_plots_${i}.qzv";
+# 	# --------------------------------------------------------
+# 	# --- Pipe 07.1 : Taxonomic Analisys - Barplot profile ---
+# 	# --------------------------------------------------------
+# 	BARPLOTQZV="${TAXONDIR}/taxa_bar_plots_${i}.qzv";
 
-	conda activate $QIIME;
-	qiime taxa barplot \
-		--i-table ${TAX_FILTERED_FILE_QZA} \
-		--i-taxonomy ${TAXONQZA} \
-		--m-metadata-file ${METAFILE} \
-		--o-visualization ${BARPLOTQZV}
-	conda deactivate;
+# 	conda activate $QIIME;
+# 	qiime taxa barplot \
+# 		--i-table ${TAX_FILTERED_FILE_QZA} \
+# 		--i-taxonomy ${TAXONQZA} \
+# 		--m-metadata-file ${METAFILE} \
+# 		--o-visualization ${BARPLOTQZV}
+# 	conda deactivate;
 
-done
+# done
 
-# -------------------------------------
-# --- Pipe 06.1 : Phylogenetic tree ---
-# Multiple Sequence Alignment (MSA) 
-# with MAFFT
-# -------------------------------------
+# # -------------------------------------
+# # --- Pipe 06.1 : Phylogenetic tree ---
+# # Multiple Sequence Alignment (MSA) 
+# # with MAFFT
+# # -------------------------------------
 PHYLOTREEDIR="${ROOT_DIR_PATH}/phylotree";
 MAFFTDADAREPSEQSQZA="${PHYLOTREEDIR}/mafft_dada_rep_seqs.qza";
 
-mkdir -p ${PHYLOTREEDIR};
-conda activate $QIIME;
-qiime alignment mafft \
-	--i-sequences ${DADAREPSEQSQZA} \
-	--o-alignment ${MAFFTDADAREPSEQSQZA}
-conda deactivate;
+# mkdir -p ${PHYLOTREEDIR};
+# conda activate $QIIME;
+# qiime alignment mafft \
+# 	--i-sequences ${DADAREPSEQSQZA} \
+# 	--o-alignment ${MAFFTDADAREPSEQSQZA}
+# conda deactivate;
 
-# -------------------------------------
-# --- Pipe 06.2 : Phylogenetic tree ---
-# Eliminate the highly variable 
-# positions, to avoid overestimate 
-# distances
-# -------------------------------------
+# # -------------------------------------
+# # --- Pipe 06.2 : Phylogenetic tree ---
+# # Eliminate the highly variable 
+# # positions, to avoid overestimate 
+# # distances
+# # -------------------------------------
 MASKMAFFTDADAREPSEQSQZA="${PHYLOTREEDIR}/mask_mafft_dada_rep_seqs.qza";
 
-conda activate $QIIME;
-qiime alignment mask \
-	--i-alignment ${MAFFTDADAREPSEQSQZA} \
-	--o-masked-alignment ${MASKMAFFTDADAREPSEQSQZA}
-conda deactivate;
+# conda activate $QIIME;
+# qiime alignment mask \
+# 	--i-alignment ${MAFFTDADAREPSEQSQZA} \
+# 	--o-masked-alignment ${MASKMAFFTDADAREPSEQSQZA}
+# conda deactivate;
 
-# -------------------------------------
-# --- Pipe 06.3 : Phylogenetic tree ---
-# Build the ML tree with FastTree
-# -------------------------------------
+# # -------------------------------------
+# # --- Pipe 06.3 : Phylogenetic tree ---
+# # Build the ML tree with FastTree
+# # -------------------------------------
 UNROOTMLTREEMASKEDQZA="${PHYLOTREEDIR}/unroot_ml_tree_masked.qza";
 
-conda activate $QIIME;
-qiime phylogeny fasttree \
-	--i-alignment ${MASKMAFFTDADAREPSEQSQZA} \
-	--o-tree ${UNROOTMLTREEMASKEDQZA}
-conda deactivate;
+# conda activate $QIIME;
+# qiime phylogeny fasttree \
+# 	--i-alignment ${MASKMAFFTDADAREPSEQSQZA} \
+# 	--o-tree ${UNROOTMLTREEMASKEDQZA}
+# conda deactivate;
 
 
-# -------------------------------------
-# --- Pipe 06.4 : Phylogenetic tree ---
-# Root the unrooted tree based on 
-# midpoint rooting method
-# -------------------------------------
+# # -------------------------------------
+# # --- Pipe 06.4 : Phylogenetic tree ---
+# # Root the unrooted tree based on 
+# # midpoint rooting method
+# # -------------------------------------
 ROOTMLTREEQZA="${PHYLOTREEDIR}/root_ml_tree.qza";
 
-conda activate $QIIME;
-qiime phylogeny midpoint-root \
-	--i-tree ${UNROOTMLTREEMASKEDQZA} \
-	--o-rooted-tree ${ROOTMLTREEQZA}
-conda deactivate;
+# conda activate $QIIME;
+# qiime phylogeny midpoint-root \
+# 	--i-tree ${UNROOTMLTREEMASKEDQZA} \
+# 	--o-rooted-tree ${ROOTMLTREEQZA}
+# conda deactivate;
 
 
-# ----------------------------------------------------------------
-# --- Pipe 07.2 : Taxonomic Analisys - Core diversity analysis ---
-# ----------------------------------------------------------------
+# # ----------------------------------------------------------------
+# # --- Pipe 07.2 : Taxonomic Analisys - Core diversity analysis ---
+# # ----------------------------------------------------------------
 COREMETRICSDIR="${ROOT_DIR_PATH}/core_metrics_results";
-RAREFACTIONFREQ=55700
-if [ -d "${COREMETRICSDIR}" ]; then rm -Rf ${COREMETRICSDIR}; fi
-mkdir -p ${PHYLOTREEDIR};
+# RAREFACTIONFREQ=55711
+# if [ -d "${COREMETRICSDIR}" ]; then rm -Rf ${COREMETRICSDIR}; fi
+# mkdir -p ${PHYLOTREEDIR};
 
-conda activate $QIIME;
+# conda activate $QIIME;
 
-qiime diversity core-metrics-phylogenetic \
-	--i-phylogeny ${ROOTMLTREEQZA} \
-	--i-table ${DADATABLEQZA} \
-	--p-sampling-depth ${RAREFACTIONFREQ} \
-	--m-metadata-file ${METAFILE} \
-	--output-dir ${COREMETRICSDIR}
+# qiime diversity core-metrics-phylogenetic \
+# 	--i-phylogeny ${ROOTMLTREEQZA} \
+# 	--i-table ${DADATABLEQZA} \
+# 	--p-sampling-depth ${RAREFACTIONFREQ} \
+# 	--m-metadata-file ${METAFILE} \
+# 	--output-dir ${COREMETRICSDIR}
 
-qiime diversity alpha-rarefaction \
-	--i-table ${DADATABLEQZA} \
-	--i-phylogeny ${ROOTMLTREEQZA} \
-	--p-max-depth ${RAREFACTIONFREQ} \
-	--m-metadata-file ${METAFILE} \
-	--o-visualization "${COREMETRICSDIR}/alpha_rarefaction.qzv"
-conda deactivate;
+# qiime diversity alpha-rarefaction \
+# 	--i-table ${DADATABLEQZA} \
+# 	--i-phylogeny ${ROOTMLTREEQZA} \
+# 	--p-max-depth ${RAREFACTIONFREQ} \
+# 	--m-metadata-file ${METAFILE} \
+# 	--o-visualization "${COREMETRICSDIR}/alpha_rarefaction.qzv"
+# conda deactivate;
 
 # =================== start backup
 	# # --------------------------------------------------------
@@ -376,11 +376,11 @@ conda deactivate;
 	# conda deactivate;
 
 
-	# # ----------------------------------------------------------------
-	# # --- Pipe 07.2 : Taxonomic Analisys - Core diversity analysis ---
-	# # ----------------------------------------------------------------
-	# RAREFACTIONFREQ=55700
-	# conda activate $QIIME;
+	# ----------------------------------------------------------------
+	# --- Pipe 07.2 : Taxonomic Analisys - Core diversity analysis ---
+	# ----------------------------------------------------------------
+	RAREFACTIONFREQ=55700
+	conda activate $QIIME;
 	# rm -fR ${COREMETRICSDIR};
 	# qiime diversity core-metrics-phylogenetic \
 	# 	--i-phylogeny ${ROOTMLTREEQZA} \
@@ -395,7 +395,37 @@ conda deactivate;
 	# 	--p-max-depth ${RAREFACTIONFREQ} \
 	# 	--m-metadata-file ${METAFILE} \
 	# 	--o-visualization "${COREMETRICSDIR}/alpha_rarefaction.qzv"
-	# conda deactivate;
+
+	# qiime diversity alpha-phylogenetic  \
+	# 	--i-table ${DADATABLEQZA} \
+	# 	--i-phylogeny ${ROOTMLTREEQZA} \
+	# 	--p-metric faith_pd \
+	# 	--o-alpha-diversity "${COREMETRICSDIR}/faith_pd_vector.qza"
+
+	# qiime diversity alpha \
+	# 	--i-table ${DADATABLEQZA} \
+	# 	--p-metric observed_features \
+	# 	--o-alpha-diversity "${COREMETRICSDIR}/observed_otus_vector.qza"
+
+	# # Faith Phylogenetic Diversity (a measure of community richness) 
+	# qiime diversity alpha-group-significance \
+	# 	--i-alpha-diversity "${COREMETRICSDIR}/faith_pd_vector.qza" \
+	# 	--m-metadata-file ${METAFILE} \
+	# 	--o-visualization "${COREMETRICSDIR}/faith-pd-group-significance.qzv"
+
+	# qiime diversity alpha-group-significance \
+	# 	--i-alpha-diversity "${COREMETRICSDIR}/evenness_vector.qza" \
+	# 	--m-metadata-file ${METAFILE} \
+	# 	--o-visualization "${COREMETRICSDIR}/evenness-group-significance.qzv"
+
+	qiime diversity beta-group-significance \
+		--i-distance-matrix "${COREMETRICSDIR}/unweighted_unifrac_distance_matrix.qza" \
+		--m-metadata-file  ${METAFILE} \
+		--m-metadata-column Description \
+		--o-visualization "${COREMETRICSDIR}/unweighted-unifrac-body-site-significance.qzv" \
+		--p-pairwise
+
+	conda deactivate;
 # =================== end backup
 
 
